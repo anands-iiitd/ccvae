@@ -5,8 +5,7 @@ from torch.autograd import Variable
 from mpl_toolkits.axes_grid1 import ImageGrid
 from torchvision.transforms import Compose, ToTensor
 
-
-# compose a transform configuration
+# Compose a transform configuration.
 transform_config = Compose([ToTensor()])
 
 
