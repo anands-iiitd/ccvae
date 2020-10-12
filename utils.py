@@ -1,9 +1,25 @@
 import torch
 import torch.nn as nn
+import os
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
 from mpl_toolkits.axes_grid1 import ImageGrid
 from torchvision.transforms import Compose, ToTensor
+
+
+def create_directories(dir_config):
+    """Create various directories as per the `config`."""
+    if not os.path.exists(dir_config.output_path):
+        os.makedirs(dir_config.output_path)
+
+    if not os.path.exists(dir_config.model_path):
+        os.makedirs(dir_config.model_path)
+
+    if not os.path.exists(os.path.join(dir_config.model_path, "checkpoints")):
+        os.makedirs(os.path.join(dir_config.model_path, "checkpoints"))
+
+
+### OLD UTILS ###
 
 # Compose a transform configuration.
 transform_config = Compose([ToTensor()])
