@@ -6,11 +6,11 @@ import config_loader
 from sklearn.model_selection import StratifiedShuffleSplit
 
 
-def split_dataset(dataset_name, data_dir, config):
-    """Split dataset into train and test data."""
-    print("Processing dataset ", dataset_name, "...")
-    train_dir = os.path.join(data_dir, dataset_name + '-train/')
-    test_dir = os.path.join(data_dir, dataset_name + '-test/')
+def split_dataset(name, data_path, test_frac):
+    """Split dataset with `name` into train and test data."""
+    print("Processing dataset ", name, "...")
+    train_dir = os.path.join(data_path, name + '-train/')
+    test_dir = os.path.join(data_path, name + '-test/')
 
     # Create directory to save images, if it doesn't exist.
     if not os.path.exists(train_dir):
@@ -22,13 +22,13 @@ def split_dataset(dataset_name, data_dir, config):
         print("Created Test Directory: ", test_dir)
 
     # Read hdf5 file.
-    path = data_dir + dataset_name + '/data4torch.h5'
+    path = data_path + name + '/data4torch.h5'
     hf = h5py.File(path, 'r')
     data = hf['data'][:]
     labels = hf['labels'][:]
 
     dataset_split = StratifiedShuffleSplit(n_splits=1,
-                                           test_size=config.test_size,
+                                           test_size=test_frac,
                                            random_state=0)
 
     for train_index, test_index in dataset_split.split(data, labels):
@@ -47,17 +47,13 @@ def split_dataset(dataset_name, data_dir, config):
     hf_test.create_dataset('data', data=data_test)
     hf_test.create_dataset('labels', data=labels_test)
 
-    print("Completed processing ", dataset_name, "....")
+    print("Completed processing ", name, "....")
 
 
-dataset_names = ["YTF",
-                 "COIL-100",
-                 "COIL-20",
-                 "FRGC",
-                 "USPS",
-                 "CMU-PIE"]
+dataset_names = ["MNIST",
+                 "YTF"]
 
 for dataset_name in dataset_names:
     config = config_loader.ConfigLoader(dataset_name)
-    data_dir = config.DATA_DIR
-    split_dataset(dataset_name, data_dir, config)
+    split_dataset(dataset_name, config.dir_config.data_path,
+                  config.train_config.test_frac)

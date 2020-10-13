@@ -13,8 +13,8 @@ class ConfigLoader:
 
         def __init__(self, data_name):
             self.root_path = os.path.abspath('../')
-            self.data_path = os.path.join(self.root_dir, 'data/')
-            self.output_path = os.path.join(self.root_dir, 'output/')
+            self.data_path = os.path.join(self.root_path, 'data/')
+            self.output_path = os.path.join(self.root_path, 'output/')
             self.model_path = os.path.join(self.root_path, 'model/')
             self.data_name = data_name
             self.train_path = os.path.join(self.data_path,

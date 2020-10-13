@@ -7,3 +7,5 @@ log.txt
 runs/*
 
 *.h5
+*.npy
+*.csv
