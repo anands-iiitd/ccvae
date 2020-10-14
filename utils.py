@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import os
+import random
+import numpy as np
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
 from mpl_toolkits.axes_grid1 import ImageGrid
@@ -17,6 +19,15 @@ def create_directories(dir_config):
 
     if not os.path.exists(os.path.join(dir_config.model_path, "checkpoints")):
         os.makedirs(os.path.join(dir_config.model_path, "checkpoints"))
+
+
+def set_seeds(seed):
+    """Set various seed values."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
 
 
 ### OLD UTILS ###

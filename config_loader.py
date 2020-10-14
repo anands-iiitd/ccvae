@@ -12,7 +12,7 @@ class ConfigLoader:
         """Defines params for various directories."""
 
         def __init__(self, data_name):
-            self.root_path = os.path.abspath('../')
+            self.root_path = os.path.abspath('.')
             self.data_path = os.path.join(self.root_path, 'data/')
             self.output_path = os.path.join(self.root_path, 'output/')
             self.model_path = os.path.join(self.root_path, 'model/')
@@ -45,13 +45,7 @@ class ConfigLoader:
                                        'num_initial_channels': 128,
                                        'padding': 1}
                 # Dataset-specific training params.
-                if data_name == "MNIST-mini":
-                    self.img_dim = 28
-                    self.channels = 1
-                    self.num_classes = 10
-                    self.num_epochs = 5
-                    self.batch_size = 8
-                elif data_name == "MNIST":
+                if data_name == "MNIST-mini" or data_name == "MNIST":
                     self.img_dim = 28
                     self.channels = 1
                     self.num_classes = 10
@@ -75,12 +69,16 @@ class ConfigLoader:
             # Continue training from saved a point.
             self.resume_training = False
             self.test_frac = 0.1
-            self.batch_size = 64
-            self.num_epochs = 100
             self.learning_rate = 0.0001
             self.dropout_prob = 0.1
             self.seed = 42
             self.optimizer = "adam"
+            if data_name == "MNIST-mini":
+                self.num_epochs = 5
+                self.batch_size = 8
+            else:
+                self.num_epochs = 100
+                self.batch_size = 64
 
             if torch.cuda.is_available():
                 print("Using cuda:0 processor.")
