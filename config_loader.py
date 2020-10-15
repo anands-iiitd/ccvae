@@ -29,22 +29,25 @@ class ConfigLoader:
             """Defines training network relalted params."""
 
             def __init__(self, data_name):
-                self.latent_dim = 32
+                self.style_dim = 16
+                self.class_dim = 16
                 self.encoder_params = {'num_layers': 3,
-                                       'layer_type': 'conv2d',
-                                       'kernel_size': [3, 5, 5],
-                                       'stride': [2, 1, 1],
-                                       'norm_type': 'batch',
+                                       'kernel_size': [5, 5, 5],
+                                       'stride': [2, 2, 2],
+                                       'norm_type': 'instance',
                                        'num_initial_channels': 32,
-                                       'padding': 1}
+                                       'padding': [1, 1, 1]}
                 self.decoder_params = {'num_layers': 3,
-                                       'layer_type': 'convt2d',
                                        'kernel_size': [5, 5, 3],
                                        'stride': [1, 1, 2],
-                                       'norm_type': 'batch',
+                                       'norm_type': 'instance',
                                        'num_initial_channels': 128,
-                                       'padding': 1}
+                                       'padding': [0, 0, 1]}
                 # Dataset-specific training params.
+                #
+                # Note: these are not really "network" params, but
+                # dataset-specific constants, but we add them here for the ease
+                # of using them while creating the network.
                 if data_name == "MNIST-mini" or data_name == "MNIST":
                     self.img_dim = 28
                     self.channels = 1
