@@ -3,26 +3,41 @@
 from warnings import filterwarnings
 import utils
 import config_loader
+import os
+import data
 
 # Ignore warnings.
 filterwarnings("ignore")
 
-if __name__ == "__main__":
-    # Initial set-up.
-    config = config_loader.ConfigLoader("MNIST-mini")
 
+def get_train_loader(dir_config, train_config):
+    return data.PairedDataloader(
+        data_path=dir_config.train_path,
+        csv_path=dir_config.train_csv_path,
+        transforms=train_config.network_config.transforms,
+        batch_size=train_config.batch_size,
+        device=train_config.device)
+
+
+def get_test_loader(dir_config, train_config):
+    return data.PairedDataloader(
+        data_path=dir_config.test_path,
+        csv_path=dir_config.test_csv_path,
+        transforms=train_config.network_config.transforms,
+        batch_size=train_config.batch_size,
+        device=train_config.device)
+
+
+if __name__ == "__main__":
+    config = config_loader.ConfigLoader("MNIST-mini")
     utils.set_seeds(config.train_config.seed)
     utils.create_directories(config.dir_config)
 
-    # # Read data.
-    # logging.info("Reading training data...")
-    # full_data_path = os.path.join(config.DATA_DIR, config.dataset_name)
-    # full_dataloaders = data.Dataloaders(config=config, data_path=full_data_path)
-    #
-    # logging.info("Reading test data...")
-    # test_data_path = os.path.join(config.DATA_DIR, config.test_dataset_name)
-    # test_dataloaders = data.Dataloaders(config=config, data_path=test_data_path)
-    #
+    # Read data.
+    train_loader = get_train_loader(config.dir_config, config.train_config)
+    test_loader = get_train_loader(config.dir_config, config.train_config)
+
+
     # # Train the model.
     # logging.info("Initializing model...")
     # net = network.Autoencoder(config).to(config.device)
@@ -44,7 +59,8 @@ if __name__ == "__main__":
     #                     plot_type=PlotType.PRETRAINING,
     #                     data_type=DataType.TRAIN)
     # plotter.plot_helper(dataloader=test_dataloaders.plot_dataloader, net=net,
-    #                     plot_type=PlotType.PRETRAINING, data_type=DataType.TEST)
+    #                     plot_type=PlotType.PRETRAINING,
+    #                     data_type=DataType.TEST)
     #
     # logging.info("Training model...")
     # modeloperator.train(load_pretrained=True)

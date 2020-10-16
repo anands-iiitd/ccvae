@@ -12,15 +12,15 @@ class ConfigLoader:
         """Defines params for various directories."""
 
         def __init__(self, data_name):
-            self.root_path = os.path.abspath('.')
-            self.data_path = os.path.join(self.root_path, 'data/')
-            self.output_path = os.path.join(self.root_path, 'output/')
-            self.model_path = os.path.join(self.root_path, 'model/')
             self.data_name = data_name
-            self.train_path = os.path.join(self.data_path,
-                                           '{0}-train'.format(data_name))
-            self.test_path = os.path.join(self.data_path,
-                                          '{0}-test'.format(data_name))
+            root_path = os.path.abspath('.')
+            self.output_path = os.path.join(root_path, 'output/')
+            self.model_path = os.path.join(root_path, 'model/')
+            data_path = os.path.join(root_path, 'data', data_name)
+            self.train_csv_path = data_path + "-train_image_paths.csv"
+            self.test_csv_path = data_path + "-test_image_paths.csv"
+            self.train_path = data_path + '-train_images'
+            self.test_path = data_path + '-test_images'
 
     class TrainConfigLoader:
         """Defines params for training."""
