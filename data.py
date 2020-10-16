@@ -56,7 +56,7 @@ class PairedDataset(Dataset):
 
     def __len__(self):
         """Return length of the dataset."""
-        return len(self.labels)
+        return self.labels.size()[0]
 
 
 class PairedDataloader:
