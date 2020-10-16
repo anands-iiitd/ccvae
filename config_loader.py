@@ -90,7 +90,7 @@ class ConfigLoader:
                 print("Cuda not available, using cpu.")
                 self.device = torch.device("cpu")
 
-    class PlotConfigLoader():
+    class PlotConfigLoader:
         """Defines and loads various config params for plotting."""
 
         def __init__(self):
