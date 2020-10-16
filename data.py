@@ -74,7 +74,7 @@ class PairedDataloader:
         self.paired_iterator = iter(self.paired_dataloader)
         self.device = device
 
-    def load_batch(self, loader, iterator):
+    def __load_batch(self, loader, iterator):
         """Load a batch of data."""
         if len(loader) == 0:
             return Data(X1=[], X2=[], Y=[])
@@ -90,4 +90,4 @@ class PairedDataloader:
 
     def load_paired_batch(self):
         """Load a batch of paired data."""
-        return self.load_batch(self.paired_dataloader, self.paired_iterator)
+        return self.__load_batch(self.paired_dataloader, self.paired_iterator)

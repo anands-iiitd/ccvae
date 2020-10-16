@@ -1,9 +1,8 @@
-"""Main script to run mean shift / k-means clustering algorithms."""
+"""Main script to run cycle-consistent VAEs."""
 
 from warnings import filterwarnings
 import utils
 import config_loader
-import os
 import data
 
 # Ignore warnings.
