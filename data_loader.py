@@ -19,10 +19,10 @@ class MnistPaired(Dataset):
             image, label = self.mnist.__getitem__(i)
 
             try:
-                self.data_dict[label.item()]
+                self.data_dict[label]
             except KeyError:
-                self.data_dict[label.item()] = []
-            self.data_dict[label.item()].append(image)
+                self.data_dict[label] = []
+            self.data_dict[label].append(image)
 
     def __len__(self):
         return self.mnist.__len__()
@@ -33,7 +33,7 @@ class MnistPaired(Dataset):
         # Return another image of the same class randomly selected from the
         # data dictionary. This is done to simulate pair-wise labeling of data.
         return image, random.SystemRandom().choice(
-            self.data_dict[label.item()]), label
+            self.data_dict[label]), label
 
 
 if __name__ == '__main__':
