@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
-from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 
 from utils import weights_init
 from utils import transform_config
@@ -123,10 +123,6 @@ def training_procedure(FLAGS):
         print('')
         print('Epoch #' + str(
             epoch) + '.......................................................')
-
-        # update the learning rate scheduler
-        auto_encoder_scheduler.step()
-        reverse_cycle_scheduler.step()
 
         for iteration in range(int(len(paired_mnist) / FLAGS.batch_size)):
             # A. Run the auto-encoder reconstruction.
@@ -262,6 +258,10 @@ def training_procedure(FLAGS):
                               epoch * (int(len(
                                   paired_mnist) / FLAGS.batch_size) + 1) +
                               iteration)
+        
+        # update the learning rate scheduler
+        auto_encoder_scheduler.step()
+        reverse_cycle_scheduler.step()
 
         # save model after every 5 epochs
         if (epoch + 1) % 5 == 0 or (epoch + 1) == FLAGS.end_epoch:
